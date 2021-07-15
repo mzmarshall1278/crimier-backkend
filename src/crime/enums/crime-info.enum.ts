@@ -16,3 +16,11 @@ export enum CrimeEvidence {
   MEDIAFOOTAGE = `Media Footage (video/audio)`,
   REDHANDED = `Red Handed`,
 }
+
+export enum CrimeStatus {
+  NEW = 'New',
+  IN_COURT = 'In Court',
+  SENTENCED = 'Sentenced',
+  DISCHARGED = 'Discharged'
+
+}

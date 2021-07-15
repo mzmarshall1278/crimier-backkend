@@ -4,6 +4,7 @@ import { CrimeService } from './crime.service';
 import { User } from '../auth/user.entity';
 import { CrimeType } from './enums/crime-info.enum';
 import { AuthGuard } from '@nestjs/passport';
+import { AddCrimeDto } from './dto/add-crime.dto';
 
 @Controller('crime')
 @UseGuards(AuthGuard())
@@ -12,8 +13,9 @@ export class CrimeController {
   
   @Post('/addCrime')
   addUser(
-    @Body('type') type: CrimeType
+    @Body() addCrimeDto: AddCrimeDto,
+    @GetUser() user: User,
   ) {
-    return this.crimeService.addCrime(type);
+    return this.crimeService.addCrime(addCrimeDto, user);
   }
 }

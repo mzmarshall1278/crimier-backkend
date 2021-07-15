@@ -1,5 +1,5 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn, Timestamp, OneToMany, OneToOne } from 'typeorm';
-import { CrimeType } from './enums/crime-info.enum';
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
+import { CrimeType, CrimeEvidence, CrimeStatus } from './enums/crime-info.enum';
 import { Suspect } from '../suspect/suspect.entity';
 import { User } from '../auth/user.entity';
 
@@ -13,18 +13,30 @@ export class Crime extends BaseEntity{
   type: CrimeType;
 
   @Column()
-  date: Date
+  date: string;
 
   @Column()
-  time: string
+  time: string;
 
   @Column()
-  location: string
+  location: string;
+
+  @Column()
+  evidence: CrimeEvidence;
+
+  @Column()
+  status: CrimeStatus;
 
   @ManyToOne(type => User, user => user.crimes, {eager: false})
   district: User;
 
-  @ManyToOne(type => Suspect, suspect => suspect.crimes, { eager: false })
-  suspect: Suspect;
+  @Column()
+  districtId: number;
+
+  @Column()
+  suspectId: number;
+
+  @ManyToMany(type => Suspect, suspect => suspect.crimes, { eager: false })
+  suspects: Suspect[];
 
 }

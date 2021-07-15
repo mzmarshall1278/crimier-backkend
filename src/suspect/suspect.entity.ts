@@ -1,5 +1,6 @@
-import { BaseEntity, Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Crime } from '../crime/crime.entity';
+import { IdenificationType, Gender } from './suspect-info.enum';
 
 @Entity()
 export class Suspect extends BaseEntity{
@@ -9,14 +10,23 @@ export class Suspect extends BaseEntity{
 
   @Column()
   name: string;
+  
+  @Column()
+  identificationType: IdenificationType;
 
   @Column()
-  age: number;
+  identificationNumber: string;
 
   @Column()
-  address: string
+  DOB: string;
 
-  @OneToMany(type => Crime, crime => crime.suspect,{ eager: true })
+  @Column()
+  gender: Gender;
+
+  @Column()
+  address: string;
+
+  @ManyToMany(type => Crime, crime => crime.suspects,{ eager: true })
   crimes: Crime[];
 
 
