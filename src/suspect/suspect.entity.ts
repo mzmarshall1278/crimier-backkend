@@ -16,8 +16,7 @@ export class Suspect extends BaseEntity{
   @Column()
   address: string
 
-  @ManyToMany(type=> Crime, crime=> crime.suspects, {eager: true})
-  crimes: Crime[]
+  
 
 
 }
