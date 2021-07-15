@@ -1,5 +1,6 @@
 import { BaseEntity, Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 import { CrimeType, CrimeEvidence } from './enums/crime-info.enum';
+import { Suspect } from '../suspect/suspect.entity';
 
 @Entity()
 export class Crime extends BaseEntity{
@@ -16,8 +17,8 @@ export class Crime extends BaseEntity{
   @Column()
   crimeScene: string;
 
-  // @ManyToMany(type=> Suspect, suspect=> suspect.crime, {eager: true})
-  // suspect: string
+  @ManyToMany(type=> Suspect, suspect=> suspect.crimes, {eager: false})
+  suspects: Suspect[]
 
   @Column()
   suspectId: number;
