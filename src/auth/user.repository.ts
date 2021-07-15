@@ -16,15 +16,14 @@ export class UserRepository extends Repository<User> {
     user.username = username;
     user.status = UserStatus.admin;
     user.district = district;
+    user.hasAccess = true;
     user.salt = await bcrypt.genSalt();
     user.password = await this.hashPassword(password, user.salt);
 
     try {
-      
       await user.save();
     } catch (error) {
       if (error.code === '23505') throw new ConflictException('username has already been used');
-      
       throw new InternalServerErrorException();
     }
   }
@@ -34,7 +33,7 @@ export class UserRepository extends Repository<User> {
     const user = await this.findOne({ username });
     
     if (user && await user.validatePassword(password)) {
-      return { username: user.username };
+      return { username: user.username, district: user.district };
       // return 'success'
     } else {
       throw new NotFoundException('wrong username or password');
