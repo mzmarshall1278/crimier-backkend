@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Crime } from '../crime/crime.entity';
 
 @Entity()
@@ -16,7 +16,8 @@ export class Suspect extends BaseEntity{
   @Column()
   address: string
 
-  
+  @OneToMany(type => Crime, crime => crime.suspect,{ eager: true })
+  crimes: Crime[];
 
 
 }

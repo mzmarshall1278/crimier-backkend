@@ -2,6 +2,7 @@ import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique }
 import * as bcrypt from 'bcrypt';
 import { UserStatus } from './user-status.enum';
 import { isNotEmpty } from 'class-validator';
+import { Crime } from '../crime/crime.entity';
 @Entity()
 @Unique(['username'])
 export class User extends BaseEntity {
@@ -24,6 +25,9 @@ export class User extends BaseEntity {
 
   @Column()
   salt: string;
+
+  @OneToMany(type => Crime, crime => crime.district, { eager: true })
+  crimes: Crime[];
 
   @Column()
   hasAccess: Boolean;
