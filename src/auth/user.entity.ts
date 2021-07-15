@@ -26,7 +26,8 @@ export class User extends BaseEntity {
   salt: string;
 
 
-  async validatePassword(password: string):Promise<boolean> {
+  async validatePassword(password: string): Promise<boolean> {
+    
     const hash = await bcrypt.hash(password, this.salt);
     return hash === this.password;
   }

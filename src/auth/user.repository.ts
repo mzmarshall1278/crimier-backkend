@@ -2,8 +2,9 @@ import { EntityRepository, Repository } from "typeorm";
 import { User } from './user.entity';
 import { UserStatus } from './user-status.enum';
 import * as bcrypt from 'bcrypt';
-import { ConflictException, HttpException, HttpStatus, InternalServerErrorException } from "@nestjs/common";
+import { ConflictException, HttpException, HttpStatus, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { CreateUserCredentialsDto } from './dto/create-user-credentials.dto';
+import { loginCredentialsDto } from './dto/login-credentials.dto';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -17,7 +18,6 @@ export class UserRepository extends Repository<User> {
     user.district = district;
     user.salt = await bcrypt.genSalt();
     user.password = await this.hashPassword(password, user.salt);
-    
 
     try {
       
@@ -26,6 +26,18 @@ export class UserRepository extends Repository<User> {
       if (error.code === '23505') throw new ConflictException('username has already been used');
       
       throw new InternalServerErrorException();
+    }
+  }
+
+  async validatePassword(credentials: loginCredentialsDto) {
+    const { username, password } = credentials;
+    const user = await this.findOne({ username });
+    
+    if (user && await user.validatePassword(password)) {
+      return { username: user.username };
+      // return 'success'
+    } else {
+      throw new NotFoundException('wrong username or password');
     }
   }
 
