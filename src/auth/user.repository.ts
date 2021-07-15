@@ -20,10 +20,6 @@ export class UserRepository extends Repository<User> {
     
 
     try {
-      const taken = await this.findOne({username})
-      if (taken) {
-        throw new HttpException({ status: HttpStatus.CONFLICT, error: 'username is already taken' }, HttpStatus.CONFLICT);
-      }
       
       await user.save();
     } catch (error) {
