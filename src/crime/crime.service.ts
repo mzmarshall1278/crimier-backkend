@@ -20,4 +20,8 @@ export class CrimeService {
   async getCrimes(crimeDto: CrimeFilterDto, user: User) {
     return this.crimeRepository.getCrimes(crimeDto, user.id);
   }
+
+  async getCrimeById(crimeId: number, user: User) {
+    return this.crimeRepository.getCrime(crimeId, user.id);
+  }
 }

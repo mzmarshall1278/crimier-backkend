@@ -14,7 +14,9 @@ export class CrimeFilterDto {
     CrimeType.MURDER,
     CrimeType.RAPE,
     CrimeType.ROBERY,
-    CrimeType.THEFT
+    CrimeType.THEFT,
+    CrimeType.MULTICRIME,
+    CrimeType.OTHERS
   ])
   type: CrimeType;
 

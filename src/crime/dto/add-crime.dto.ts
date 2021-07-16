@@ -15,7 +15,9 @@ export class AddCrimeDto {
     CrimeType.MURDER,
     CrimeType.RAPE,
     CrimeType.ROBERY,
-    CrimeType.THEFT
+    CrimeType.THEFT,
+    CrimeType.MULTICRIME,
+    CrimeType.OTHERS
   ])
   @IsNotEmpty()
   type: CrimeType;

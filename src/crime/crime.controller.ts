@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { CrimeService } from './crime.service';
 import { User } from '../auth/user.entity';
@@ -26,5 +26,13 @@ export class CrimeController {
     @GetUser() user: User
   ) {
     return this.crimeService.getCrimes(crimeDto, user)
+  }
+
+  @Get('/single/:crimeId')
+  getCrimeById(
+    @Param('crimeId', ParseIntPipe) crimeId: number,
+    @GetUser() user: User
+  ) {
+    return this.crimeService.getCrimeById(crimeId, user);
   }
 }

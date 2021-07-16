@@ -8,7 +8,9 @@ export enum CrimeType {
   DRUGABUSE = `Drug Abuse`,
   ILLEGALBUSINESS = `Illegal BUSINESS`,
   FRAUD = `Fraud`,
-  BLASPHEMY= `Blasphemy`
+  BLASPHEMY = `Blasphemy`,
+  MULTICRIME = `Multiple Crimes`,
+  OTHERS = `Others`
 }
 
 export enum CrimeEvidence {

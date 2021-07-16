@@ -33,7 +33,7 @@ export class Crime extends BaseEntity{
   @Column()
   districtId: number;
 
-  @ManyToMany(type => Suspect, suspect => suspect.crimes, { eager: false })
+  @ManyToMany(type => Suspect, suspect => suspect.crimes, { eager: true })
     // @JoinTable()
   suspects: Suspect[];
 

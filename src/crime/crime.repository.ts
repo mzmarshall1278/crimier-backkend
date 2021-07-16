@@ -1,3 +1,4 @@
+import { UpdateCrimeDto } from './dto/update-crime.dto';
 import { EntityRepository, Repository } from "typeorm"
 import { Crime } from './crime.entity';
 import { CrimeStatus, CrimeType } from './enums/crime-info.enum';
@@ -6,6 +7,7 @@ import { AddCrimeDto } from './dto/add-crime.dto';
 import { Suspect } from '../suspect/suspect.entity';
 import { CrimeFilterDto } from './dto/crime-filter.dto';
 import { Type } from 'class-transformer';
+import { NotFoundException } from '@nestjs/common';
 
 @EntityRepository(Crime)
 export class CrimeRepository extends Repository<Crime> {
@@ -51,5 +53,20 @@ export class CrimeRepository extends Repository<Crime> {
     const crimes = await query.getMany();
     crimes.forEach(crime => delete crime.suspects)
     return crimes;
+  }
+
+  async updateCrimeRecord(crimeDto: UpdateCrimeDto, districtId: number) {
+    const { id, suspectId, type, status, evidence } = crimeDto;
+    
+
+  }
+
+  async getCrime(id: number, districtId: number) {
+    
+    const crime = await this.findOne({ where: { id, districtId } });
+
+    if (!crime) throw new NotFoundException('This crime record does not exist or does not belong to your district')
+    
+    return crime;
   }
 }
