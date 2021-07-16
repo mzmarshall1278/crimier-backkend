@@ -53,13 +53,18 @@ export class CrimeRepository extends Repository<Crime> {
     const crimes = await query.getMany();
     crimes.forEach(crime => delete crime.suspects)
     return crimes;
-  }
+  };
 
-  async updateCrimeRecord(crimeDto: UpdateCrimeDto, districtId: number) {
-    const { id, suspectId, type, status, evidence } = crimeDto;
-    
+  async updateCrime(crimeDto: UpdateCrimeDto, districtId: number) {
+    const { id, type, status, evidence } = crimeDto;
+    const crime = await this.getCrime(id, districtId);
 
-  }
+    if (type) crime.type = type;
+    if (status) crime.status = status;
+    if (evidence) crime.evidence = evidence;
+    crime.save()
+    return crime;
+  };
 
   async getCrime(id: number, districtId: number) {
     

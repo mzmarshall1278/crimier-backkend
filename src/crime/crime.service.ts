@@ -1,3 +1,4 @@
+import { UpdateCrimeDto } from './dto/update-crime.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CrimeRepository } from './crime.repository';
@@ -5,6 +6,7 @@ import { Crime } from './crime.entity';
 import { AddCrimeDto } from './dto/add-crime.dto';
 import { User } from '../auth/user.entity';
 import { CrimeFilterDto } from './dto/crime-filter.dto';
+import { Suspect } from '../suspect/suspect.entity';
 
 @Injectable()
 export class CrimeService {
@@ -24,4 +26,9 @@ export class CrimeService {
   async getCrimeById(crimeId: number, user: User) {
     return this.crimeRepository.getCrime(crimeId, user.id);
   }
+
+  async updateCrime(crimeDto: UpdateCrimeDto, user: User) {
+    return this.crimeRepository.updateCrime(crimeDto, user.id);
+  }
+
 }

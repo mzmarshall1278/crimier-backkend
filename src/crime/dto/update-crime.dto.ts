@@ -1,5 +1,6 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsIn } from 'class-validator';
 import { CrimeStatus, CrimeType, CrimeEvidence } from '../enums/crime-info.enum';
+import { Suspect } from '../../suspect/suspect.entity';
 
 export class UpdateCrimeDto {
   @IsNumber()
@@ -9,10 +10,6 @@ export class UpdateCrimeDto {
   @IsOptional()
   @IsIn([CrimeStatus.NEW, CrimeStatus.DISCHARGED, CrimeStatus.IN_COURT, CrimeStatus.SENTENCED])
   status: CrimeStatus;
-
-  @IsNumber()
-  @IsOptional()
-  suspectId: number;
 
   @IsOptional()
   @IsIn([

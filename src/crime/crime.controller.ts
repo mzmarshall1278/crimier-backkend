@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common';
+import { UpdateCrimeDto } from './dto/update-crime.dto';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards, ValidationPipe } from '@nestjs/common';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { CrimeService } from './crime.service';
 import { User } from '../auth/user.entity';
@@ -6,6 +7,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { AddCrimeDto } from './dto/add-crime.dto';
 import { Crime } from './crime.entity';
 import { CrimeFilterDto } from './dto/crime-filter.dto';
+import { Suspect } from '../suspect/suspect.entity';
 
 @Controller('crime')
 @UseGuards(AuthGuard())
@@ -35,4 +37,15 @@ export class CrimeController {
   ) {
     return this.crimeService.getCrimeById(crimeId, user);
   }
+
+  @Put()
+  updateCrime(
+    @Body() crimeDto: UpdateCrimeDto,
+    @GetUser() user: User
+  ) {
+    
+    return this.crimeService.updateCrime(crimeDto, user);
+  }
+
+ 
 }
