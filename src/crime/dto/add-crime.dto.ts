@@ -1,6 +1,8 @@
 import { CrimeEvidence } from './../enums/crime-info.enum';
-import { IsDate, IsIn, IsNotEmpty, IsNumber, IsString } from "class-validator"
+import { IsArray, IsDate, IsIn, IsNotEmpty, IsNumber, IsString } from "class-validator"
 import { CrimeType, CrimeStatus } from '../enums/crime-info.enum';
+import { User } from '../../auth/user.entity';
+import { Suspect } from '../../suspect/suspect.entity';
 
 export class AddCrimeDto {
   @IsIn([
@@ -18,7 +20,7 @@ export class AddCrimeDto {
   @IsNotEmpty()
   type: CrimeType;
 
-  @IsDate()
+  @IsString()
   @IsNotEmpty()
   date: string;
 
@@ -34,15 +36,8 @@ export class AddCrimeDto {
   @IsIn([CrimeEvidence.MEDIAFOOTAGE, CrimeEvidence.REDHANDED, CrimeEvidence.WITNESS])
   evidence: CrimeEvidence;
 
-  @IsNotEmpty()
-  @IsIn([CrimeStatus.DISCHARGED, CrimeStatus.IN_COURT, CrimeStatus.NEW, CrimeStatus.SENTENCED])  
-  status: CrimeStatus;
 
   @IsNotEmpty()
-  @IsNumber()
-  district: number;
-
-  @IsNotEmpty()
-  @IsNumber()
-  suspectId: number;
+  @IsArray()
+  suspects: Suspect[];
 }

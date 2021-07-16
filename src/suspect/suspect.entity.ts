@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Crime } from '../crime/crime.entity';
 import { IdenificationType, Gender } from './suspect-info.enum';
 
@@ -26,7 +26,8 @@ export class Suspect extends BaseEntity{
   @Column()
   address: string;
 
-  @ManyToMany(type => Crime, crime => crime.suspects,{ eager: true })
+  @ManyToMany(type => Crime, crime => crime.suspects, { eager: true })
+  @JoinTable()
   crimes: Crime[];
 
 

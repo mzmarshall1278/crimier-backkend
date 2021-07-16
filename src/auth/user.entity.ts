@@ -26,7 +26,7 @@ export class User extends BaseEntity {
   @Column()
   salt: string;
 
-  @OneToMany(type => Crime, crime => crime.district, { eager: true })
+  @OneToMany(type => Crime, crime => crime.district, { eager: false })
   crimes: Crime[];
 
   @Column()
