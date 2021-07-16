@@ -26,7 +26,7 @@ export class Suspect extends BaseEntity{
   @Column()
   address: string;
 
-  @ManyToMany(type => Crime, crime => crime.suspects, { eager: true })
+  @ManyToMany(type => Crime, crime => crime.suspects, { eager: false })
   @JoinTable()
   crimes: Crime[];
 

@@ -1,10 +1,11 @@
-import { Body, Controller, Post, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { CrimeService } from './crime.service';
 import { User } from '../auth/user.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { AddCrimeDto } from './dto/add-crime.dto';
 import { Crime } from './crime.entity';
+import { CrimeFilterDto } from './dto/crime-filter.dto';
 
 @Controller('crime')
 @UseGuards(AuthGuard())
@@ -17,5 +18,13 @@ export class CrimeController {
     @GetUser() user: User,
   ):Promise<Crime> {
     return this.crimeService.addCrime(addCrimeDto, user);
+  }
+
+  @Get('/')
+  getCrimes(
+    @Query() crimeDto: CrimeFilterDto,
+    @GetUser() user: User
+  ) {
+    return this.crimeService.getCrimes(crimeDto, user)
   }
 }
