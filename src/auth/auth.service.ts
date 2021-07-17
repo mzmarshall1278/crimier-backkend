@@ -36,6 +36,8 @@ export class AuthService {
   async getAllDistricts(username: string, district: string):Promise<User[]> {
     return this.userRepository.getAllDistricts(username, district);
   };
-
+  async toggleDistrictAccess(districtId: number, user: User) {
+    return this.userRepository.toggleDistrictAccess(districtId, user);
+  }
 
 }

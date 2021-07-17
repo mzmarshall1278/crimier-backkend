@@ -2,7 +2,7 @@ import { EntityRepository, QueryBuilder, Repository } from "typeorm";
 import { User } from './user.entity';
 import { UserStatus } from './user-status.enum';
 import * as bcrypt from 'bcrypt';
-import { ConflictException, HttpException, HttpStatus, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { ConflictException, HttpException, HttpStatus, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserCredentialsDto } from './dto/create-user-credentials.dto';
 import { loginCredentialsDto } from './dto/login-credentials.dto';
 
@@ -38,6 +38,17 @@ export class UserRepository extends Repository<User> {
     
     const districts = await query.getMany();
     return districts;
+  }
+
+  async toggleDistrictAccess(districtId: number, user: User): Promise<User> {
+    if (user.status !== "SUPER_ADMIN") throw new UnauthorizedException('You are not authorized to perform this operation.');
+
+    const district = await this.findOne(districtId);
+    if (!district) throw new NotFoundException('There is no record of tis district')
+    
+    district.hasAccess = district.hasAccess? false: true;
+    const newDIstrict = await district.save();
+    return newDIstrict;
   }
 
   async getDistrictById(districtId: number):Promise<User> {
