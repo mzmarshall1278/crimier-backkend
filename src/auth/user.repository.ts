@@ -1,4 +1,4 @@
-import { EntityRepository, Repository } from "typeorm";
+import { EntityRepository, QueryBuilder, Repository } from "typeorm";
 import { User } from './user.entity';
 import { UserStatus } from './user-status.enum';
 import * as bcrypt from 'bcrypt';
@@ -9,6 +9,7 @@ import { loginCredentialsDto } from './dto/login-credentials.dto';
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
 
+  ///a user in this application refers to a district or police division
   async addUser(authDto: CreateUserCredentialsDto) {
     const { username, password, district } = authDto;
 
@@ -26,6 +27,17 @@ export class UserRepository extends Repository<User> {
       if (error.code === '23505') throw new ConflictException('username has already been used');
       throw new InternalServerErrorException();
     }
+  }
+
+  // with filters
+  async getAllDistricts(username: string, district: string):Promise<User[]> {
+    const query = this.createQueryBuilder('user')
+
+    if (username) query.andWhere('user.username Like :username', {username: `%${username}%`})
+    if (district) query.andWhere('user.district Like :district', { district: `%${district}%` })
+    
+    const districts = await query.getMany();
+    return districts;
   }
 
   async validatePassword(credentials: loginCredentialsDto) {

@@ -5,6 +5,7 @@ import { CreateUserCredentialsDto } from './dto/create-user-credentials.dto';
 import { loginCredentialsDto } from './dto/login-credentials.dto';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwt-payload.interface';
+import { User } from './user.entity';
 
 @Injectable()
 export class AuthService {
@@ -26,5 +27,10 @@ export class AuthService {
     const accessToken = this.jwtService.sign(payload);
 
     return { accessToken };
+  };
+
+  getAllDistricts(username: string, district: string):Promise<User[]> {
+    return this.userRepository.getAllDistricts(username, district);
   }
+
 }
