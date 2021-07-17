@@ -40,6 +40,15 @@ export class UserRepository extends Repository<User> {
     return districts;
   }
 
+  async getDistrictById(districtId: number):Promise<User> {
+    const district = await this.findOne(districtId);
+    if (!district) throw new NotFoundException('No record found  for this district')
+
+    delete district.password;
+    delete district.salt;
+    return district;
+  }
+
   async validatePassword(credentials: loginCredentialsDto) {
     const { username, password } = credentials;
     const user = await this.findOne({ username });

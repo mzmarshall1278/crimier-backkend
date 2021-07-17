@@ -17,7 +17,7 @@ export class AuthService {
   
   async addUser(authDto: CreateUserCredentialsDto):Promise<void>{
     return this.userRepository.addUser(authDto);
-  }
+  };
   
   async login(authDto: loginCredentialsDto): Promise<{ accessToken: string }> {
     const user = await this.userRepository.validatePassword(authDto);
@@ -29,8 +29,13 @@ export class AuthService {
     return { accessToken };
   };
 
-  getAllDistricts(username: string, district: string):Promise<User[]> {
+  async getDistrictById(districtId: number):Promise<User> {
+    return this.userRepository.getDistrictById(districtId);
+  };
+
+  async getAllDistricts(username: string, district: string):Promise<User[]> {
     return this.userRepository.getAllDistricts(username, district);
-  }
+  };
+
 
 }

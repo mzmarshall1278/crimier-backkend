@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, ValidationPipe } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserCredentialsDto } from './dto/create-user-credentials.dto';
 import { loginCredentialsDto } from './dto/login-credentials.dto';
@@ -18,6 +18,11 @@ export class AuthController {
     return this.authService.login(authDto);
   }
 
+  @Get('/:id')
+  getDistrictById(@Param('id') districtId: number): Promise<User> {
+    return this.authService.getDistrictById(districtId);
+  };
+    
   @Get('/all')
   getAllUsers(
     @Query('username') username: string,
