@@ -40,9 +40,9 @@ export class CrimeRepository extends Repository<Crime> {
 
     query.where('crime.districtId = :districtId', { districtId });
 
-    if (status) query.andWhere('crime.status Like :status', { status });
+    if (status) query.andWhere('crime.status = :status', { status });
 
-    if (type) query.andWhere('crime.type Like :type', { type });
+    if (type) query.andWhere('crime.type = :type', { type });
 
     if (suspectId) {
       query.leftJoinAndSelect('crime.suspects', "suspect",);

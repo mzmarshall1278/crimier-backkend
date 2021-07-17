@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SuspectRepository } from './suspect.repository';
 import { Suspect } from './suspect.entity';
+import { GetSuspectsDto } from './dto/getSuspects.dto';
 
 @Injectable()
 export class SuspectService {
@@ -10,7 +11,12 @@ export class SuspectService {
     @InjectRepository(SuspectRepository)
     private suspectRepository: SuspectRepository
   ) { }
+
   async addSuspect(suspectDto: AddSuspectDto): Promise<Suspect> {
     return this.suspectRepository.addSuspect(suspectDto)
+  }
+
+  async getSuspects(suspectsDto: GetSuspectsDto): Promise<Suspect[]> {
+    return this.suspectRepository.getSuspectsByInfo(suspectsDto);
   }
 }
