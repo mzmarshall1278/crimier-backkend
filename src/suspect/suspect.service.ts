@@ -19,4 +19,8 @@ export class SuspectService {
   async getSuspects(suspectsDto: GetSuspectsDto): Promise<Suspect[]> {
     return this.suspectRepository.getSuspectsByInfo(suspectsDto);
   }
+
+  async getSuspectById(suspectId: number):Promise<Suspect> {
+    return this.suspectRepository.getSuspectById(suspectId);
+  };
 }

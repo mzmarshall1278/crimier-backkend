@@ -19,4 +19,9 @@ export class SuspectController {
   getAllSuspects(@Query(ValidationPipe) suspectsDto:GetSuspectsDto):Promise<Suspect[]> {
     return this.suspectService.getSuspects(suspectsDto);
   }
+
+  @Get('/:id')
+  getSuspectById(@Param('id') suspectId: number): Promise<Suspect>{
+    return this.suspectService.getSuspectById(suspectId);
+  };
 }

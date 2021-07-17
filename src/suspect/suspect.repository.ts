@@ -2,6 +2,7 @@ import { EntityRepository, Repository } from "typeorm"
 import { Suspect } from './suspect.entity';
 import { AddSuspectDto } from './dto/add-suspect.dto';
 import { GetSuspectsDto } from './dto/getSuspects.dto';
+import { NotFoundException } from '@nestjs/common';
 
 @EntityRepository(Suspect)
 export class SuspectRepository extends Repository<Suspect> {
@@ -33,5 +34,12 @@ export class SuspectRepository extends Repository<Suspect> {
 
     const suspects = await query.getMany();
     return suspects;
+  }
+
+  async getSuspectById(suspectId: number):Promise<Suspect> {
+    const suspect = await this.findOne(suspectId);
+    if (!suspect) throw new NotFoundException('No record found  for this Suspect')
+
+    return suspect;
   }
 }
