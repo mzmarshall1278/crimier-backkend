@@ -15,8 +15,8 @@ export class AuthService {
     private jwtService: JwtService
   ) { }
   
-  async addUser(authDto: CreateUserCredentialsDto):Promise<void>{
-    return this.userRepository.addUser(authDto);
+  async addUser(authDto: CreateUserCredentialsDto, user: User):Promise<void>{
+    return this.userRepository.addUser(authDto, user);
   };
   
   async login(authDto: loginCredentialsDto): Promise<{ accessToken: string }> {
@@ -29,12 +29,12 @@ export class AuthService {
     return { accessToken };
   };
 
-  async getDistrictById(districtId: number):Promise<User> {
-    return this.userRepository.getDistrictById(districtId);
+  async getDistrictById(districtId: number, user: User):Promise<User> {
+    return this.userRepository.getDistrictById(districtId,  user);
   };
 
-  async getAllDistricts(username: string, district: string):Promise<User[]> {
-    return this.userRepository.getAllDistricts(username, district);
+  async getAllDistricts(username: string, district: string, user: User):Promise<User[]> {
+    return this.userRepository.getAllDistricts(username, district, user);
   };
   async toggleDistrictAccess(districtId: number, user: User) {
     return this.userRepository.toggleDistrictAccess(districtId, user);

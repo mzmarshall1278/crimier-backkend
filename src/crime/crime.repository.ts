@@ -38,7 +38,7 @@ export class CrimeRepository extends Repository<Crime> {
     const { type, status, suspectId} = crimeDto;
     const query = this.createQueryBuilder('crime');
 
-    query.where('crime.districtId = :districtId', { districtId });
+    if (districtId !== 1)  query.where('crime.districtId = :districtId', { districtId });
 
     if (status) query.andWhere('crime.status = :status', { status });
 

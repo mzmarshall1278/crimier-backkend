@@ -2,7 +2,7 @@ import { EntityRepository, QueryBuilder, Repository } from "typeorm";
 import { User } from './user.entity';
 import { UserStatus } from './user-status.enum';
 import * as bcrypt from 'bcrypt';
-import { ConflictException, HttpException, HttpStatus, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserCredentialsDto } from './dto/create-user-credentials.dto';
 import { loginCredentialsDto } from './dto/login-credentials.dto';
 
@@ -10,7 +10,9 @@ import { loginCredentialsDto } from './dto/login-credentials.dto';
 export class UserRepository extends Repository<User> {
 
   ///a user in this application refers to a district or police division
-  async addUser(authDto: CreateUserCredentialsDto) {
+  async addUser(authDto: CreateUserCredentialsDto, headquarters: User) {
+
+    if (headquarters.status !== "SUPER_ADMIN") throw new UnauthorizedException('You are not authorized to perform this operation.');
     const { username, password, district } = authDto;
 
     const user = new User();
@@ -30,13 +32,20 @@ export class UserRepository extends Repository<User> {
   }
 
   // with filters
-  async getAllDistricts(username: string, district: string):Promise<User[]> {
+  async getAllDistricts(username: string, district: string, user: User): Promise<User[]>
+  {
+    if (user.status !== "SUPER_ADMIN") throw new UnauthorizedException('You are not authorized to perform this operation.');
+
     const query = this.createQueryBuilder('user')
 
     if (username) query.andWhere('user.username Like :username', {username: `%${username}%`})
     if (district) query.andWhere('user.district Like :district', { district: `%${district}%` })
     
     const districts = await query.getMany();
+    districts.forEach(dis => {
+      delete dis.password;
+      delete dis.salt;
+    })
     return districts;
   }
 
@@ -47,11 +56,16 @@ export class UserRepository extends Repository<User> {
     if (!district) throw new NotFoundException('There is no record of tis district')
     
     district.hasAccess = district.hasAccess? false: true;
-    const newDIstrict = await district.save();
-    return newDIstrict;
+    const newDistrict = await district.save();
+    
+    delete newDistrict.password;
+    delete newDistrict.salt;
+
+    return newDistrict;
   }
 
-  async getDistrictById(districtId: number):Promise<User> {
+  async getDistrictById(districtId: number, user: User): Promise<User> {
+    if (user.status !== "SUPER_ADMIN") throw new UnauthorizedException('You are not authorized to perform this operation.');
     const district = await this.findOne(districtId);
     if (!district) throw new NotFoundException('No record found  for this district')
 

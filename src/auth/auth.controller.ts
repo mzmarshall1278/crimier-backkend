@@ -9,10 +9,14 @@ import { AuthGuard } from '@nestjs/passport';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) { }
-  
+
+  @UseGuards(AuthGuard())
   @Post('/create')
-  addUser(@Body(ValidationPipe) authDto: CreateUserCredentialsDto) {
-    return this.authService.addUser(authDto);
+  addUser(
+    @Body(ValidationPipe) authDto: CreateUserCredentialsDto,
+    @GetUser() user: User
+  ) {
+    return this.authService.addUser(authDto, user);
   }
 
   @Post('/login')
@@ -21,19 +25,23 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard())
-  @Get('/:id')
-  getDistrictById(@Param('id') districtId: number): Promise<User> {
-    return this.authService.getDistrictById(districtId);
+  @Get('/single/:id')
+  getDistrictById(
+    @Param('id') districtId: number,
+    @GetUser() user: User
+  ): Promise<User> {
+    return this.authService.getDistrictById(districtId, user);
   };
-    
+  
   @UseGuards(AuthGuard())
   @Get('/all')
   getAllUsers(
     @Query('username') username: string,
-    @Query('district') district: string): Promise<User[]> {
-    return this.authService.getAllDistricts(username, district);
+    @Query('district') district: string,
+    @GetUser() user: User
+  ){
+    return this.authService.getAllDistricts(username, district, user);
   }
-
   
   @Put('/toggleDistrict/:id')
   @UseGuards(AuthGuard())  
@@ -41,6 +49,6 @@ export class AuthController {
     @Param('id') districtId: number,
     @GetUser() user: User
     ) {
-    return this.authService.toggleDistrictAccess(districtId, user)
+    return this.authService.toggleDistrictAccess(districtId, user);
   }
 }
