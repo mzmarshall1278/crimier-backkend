@@ -7,13 +7,14 @@ import { AddCrimeDto } from './dto/add-crime.dto';
 import { Suspect } from '../suspect/suspect.entity';
 import { CrimeFilterDto } from './dto/crime-filter.dto';
 import { Type } from 'class-transformer';
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, UnauthorizedException } from '@nestjs/common';
 
 @EntityRepository(Crime)
 export class CrimeRepository extends Repository<Crime> {
 
   async addCrime(crimeDto: AddCrimeDto, user: User): Promise<Crime> {
-    const { type, date, time, location, evidence, suspects} = crimeDto;
+    const { type, date, time, location, evidence, suspects } = crimeDto;
+    // if(!user.hasAccess) throw new UnauthorizedException('Head Quarters has blocked your access')
     const crime = new Crime();
     
     crime.type = type;
