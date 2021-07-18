@@ -1,7 +1,6 @@
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { UserStatus } from './user-status.enum';
-import { isNotEmpty } from 'class-validator';
 import { Crime } from '../crime/crime.entity';
 @Entity()
 @Unique(['username'])

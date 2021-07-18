@@ -1,4 +1,4 @@
-import { EntityRepository, QueryBuilder, Repository } from "typeorm";
+import { EntityRepository, Repository } from "typeorm";
 import { User } from './user.entity';
 import { UserStatus } from './user-status.enum';
 import * as bcrypt from 'bcrypt';

@@ -1,5 +1,4 @@
-import { Type } from 'class-transformer';
-import { IsNotEmpty, Min, MaxLength, MinLength, IsString, IsIn, IsDate } from 'class-validator';
+import { IsNotEmpty, Min, MaxLength, MinLength, IsString, IsIn } from 'class-validator';
 import { IdenificationType, Gender } from '../suspect-info.enum';
 
 export class AddSuspectDto {
