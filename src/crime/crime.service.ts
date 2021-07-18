@@ -6,7 +6,6 @@ import { Crime } from './crime.entity';
 import { AddCrimeDto } from './dto/add-crime.dto';
 import { User } from '../auth/user.entity';
 import { CrimeFilterDto } from './dto/crime-filter.dto';
-import { Suspect } from '../suspect/suspect.entity';
 
 @Injectable()
 export class CrimeService {

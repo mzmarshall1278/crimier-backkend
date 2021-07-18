@@ -7,7 +7,6 @@ import { AuthGuard } from '@nestjs/passport';
 import { AddCrimeDto } from './dto/add-crime.dto';
 import { Crime } from './crime.entity';
 import { CrimeFilterDto } from './dto/crime-filter.dto';
-import { Suspect } from '../suspect/suspect.entity';
 
 @Controller('crime')
 @UseGuards(AuthGuard())

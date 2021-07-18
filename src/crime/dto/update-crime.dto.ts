@@ -1,7 +1,5 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsIn } from 'class-validator';
 import { CrimeStatus, CrimeType, CrimeEvidence } from '../enums/crime-info.enum';
-import { Suspect } from '../../suspect/suspect.entity';
-
 export class UpdateCrimeDto {
   @IsNumber()
   @IsNotEmpty()

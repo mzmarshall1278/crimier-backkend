@@ -4,10 +4,8 @@ import { Crime } from './crime.entity';
 import { CrimeStatus, CrimeType } from './enums/crime-info.enum';
 import { User } from '../auth/user.entity';
 import { AddCrimeDto } from './dto/add-crime.dto';
-import { Suspect } from '../suspect/suspect.entity';
 import { CrimeFilterDto } from './dto/crime-filter.dto';
-import { Type } from 'class-transformer';
-import { NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 
 @EntityRepository(Crime)
 export class CrimeRepository extends Repository<Crime> {
@@ -59,7 +57,7 @@ export class CrimeRepository extends Repository<Crime> {
   async updateCrime(crimeDto: UpdateCrimeDto, districtId: number) {
     const { id, type, status, evidence } = crimeDto;
     const crime = await this.getCrime(id, districtId);
-
+    
     if (type) crime.type = type;
     if (status) crime.status = status;
     if (evidence) crime.evidence = evidence;

@@ -1,11 +1,12 @@
-import { Body, Controller, Get, Param, Post, Query, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common';
 import { SuspectService } from './suspect.service';
 import { AddSuspectDto } from './dto/add-suspect.dto';
 import { Suspect } from './suspect.entity';
-import { get } from 'http';
 import { GetSuspectsDto } from './dto/getSuspects.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('suspect')
+@UseGuards(AuthGuard())
 export class SuspectController {
 
   constructor(private suspectService: SuspectService) { }

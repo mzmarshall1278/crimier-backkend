@@ -1,7 +1,6 @@
 import { CrimeEvidence } from './../enums/crime-info.enum';
-import { IsArray, IsDate, IsIn, IsNotEmpty, IsNumber, IsString } from "class-validator"
-import { CrimeType, CrimeStatus } from '../enums/crime-info.enum';
-import { User } from '../../auth/user.entity';
+import { IsArray, IsDate, IsIn, IsNotEmpty, IsString } from "class-validator"
+import { CrimeType } from '../enums/crime-info.enum';
 import { Suspect } from '../../suspect/suspect.entity';
 
 export class AddCrimeDto {

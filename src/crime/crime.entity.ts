@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn, ManyToMany, } from 'typeorm';
 import { CrimeType, CrimeEvidence, CrimeStatus } from './enums/crime-info.enum';
 import { Suspect } from '../suspect/suspect.entity';
 import { User } from '../auth/user.entity';
