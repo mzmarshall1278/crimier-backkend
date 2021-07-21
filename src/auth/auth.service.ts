@@ -10,23 +10,23 @@ import { User } from './user.entity';
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(UserRepository) 
+    @InjectRepository(UserRepository)
     private userRepository: UserRepository,
     private jwtService: JwtService
   ) { }
-  
+
   async addUser(authDto: CreateUserCredentialsDto, user: User):Promise<void>{
     return this.userRepository.addUser(authDto, user);
   };
-  
-  async login(authDto: loginCredentialsDto): Promise<{ accessToken: string }> {
+
+  async login(authDto: loginCredentialsDto): Promise<{ accessToken: string, user: {} }> {
     const user = await this.userRepository.validatePassword(authDto);
     if (!user.username) return;
 
     const payload: JwtPayload = { username: user.username, district: user.district };
     const accessToken = this.jwtService.sign(payload);
 
-    return { accessToken };
+    return { accessToken, user: user.username };
   };
 
   async getDistrictById(districtId: number, user: User):Promise<User> {

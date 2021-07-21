@@ -40,7 +40,7 @@ export class UserRepository extends Repository<User> {
 
     if (username) query.andWhere('user.username Like :username', {username: `%${username}%`})
     if (district) query.andWhere('user.district Like :district', { district: `%${district}%` })
-    
+
     const districts = await query.getMany();
     districts.forEach(dis => {
       delete dis.password;
@@ -54,10 +54,10 @@ export class UserRepository extends Repository<User> {
 
     const district = await this.findOne(districtId);
     if (!district) throw new NotFoundException('There is no record of tis district')
-    
+
     district.hasAccess = district.hasAccess? false: true;
     const newDistrict = await district.save();
-    
+
     delete newDistrict.password;
     delete newDistrict.salt;
 
@@ -77,9 +77,9 @@ export class UserRepository extends Repository<User> {
   async validatePassword(credentials: loginCredentialsDto) {
     const { username, password } = credentials;
     const user = await this.findOne({ username });
-    
+
     if (user && await user.validatePassword(password)) {
-      return { username: user.username, district: user.district };
+      return { username: user.username, district: user.district, status: user.status, hasAccess: user.hasAccess };
       // return 'success'
     } else {
       throw new NotFoundException('wrong username or password');

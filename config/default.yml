@@ -1,0 +1,11 @@
+server:
+  port: 3000
+
+db:
+  type: 'postgres'
+  port: 532
+  database: 'crimer'
+
+
+jwt: 
+  expiresin: 3600
