@@ -14,7 +14,7 @@ export class CrimeRepository extends Repository<Crime> {
     const { type, date, time, location, evidence, suspects } = crimeDto;
     // if(!user.hasAccess) throw new UnauthorizedException('Head Quarters has blocked your access')
     const crime = new Crime();
-    
+
     crime.type = type;
     crime.date = date;
     crime.time = time;
@@ -23,17 +23,17 @@ export class CrimeRepository extends Repository<Crime> {
     crime.status = CrimeStatus.NEW;
     crime.suspects = suspects;
     crime.district = user;
-    
+
     await crime.save();
     delete crime.suspects;
     delete crime.district;
-    
+
     return crime;
   }
 
 
   async getCrimes(crimeDto: CrimeFilterDto, districtId: number) {
-    
+
     const { type, status, suspectId} = crimeDto;
     const query = this.createQueryBuilder('crime');
 
@@ -48,9 +48,8 @@ export class CrimeRepository extends Repository<Crime> {
       query.where('suspect.id = :suspectId', {suspectId})
     }
 
-    
+
     const crimes = await query.getMany();
-    crimes.forEach(crime => delete crime.suspects)
     return crimes;
   };
 
@@ -66,11 +65,11 @@ export class CrimeRepository extends Repository<Crime> {
   };
 
   async getCrime(id: number, districtId: number) {
-    
+
     const crime = await this.findOne({ where: { id, districtId } });
 
     if (!crime) throw new NotFoundException('This crime record does not exist or does not belong to your district')
-    
+
     return crime;
   }
 }
